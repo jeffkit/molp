@@ -4,6 +4,7 @@ from django.test import TestCase
 from molp.models import Parameter
 from datetime import datetime
 from datetime import timedelta
+import time
 
 
 class ParameterManagerTestCase(TestCase):
@@ -74,12 +75,12 @@ class ParameterManagerTestCase(TestCase):
 
         ps = Parameter.objects.get_parameters('net.jf.test', version='1.1',
                                               channel='appstore',
-                                              since=datetime.now())
+                                              since=time.time())
         self.assertEqual(1, len(ps))
         self.assertEqual('name', ps[0].name)
 
         ps = Parameter.objects.get_parameters(
             'net.jf.test', version='1.1',
             channel='appstore',
-            since=datetime.now() + timedelta(days=2))
+            since=time.time() + 172800)
         self.assertEqual(2, len(ps))

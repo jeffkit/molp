@@ -95,8 +95,7 @@ class Parameter(models.Model):
         if self.effect_time:
             number += 1
             if not since or (
-                    calendar.timegm(since.timetuple()) <
-                    calendar.timegm(self.effect_time.timetuple())):
+                    since < calendar.timegm(self.effect_time.timetuple())):
                 return -1
             factor += 1
         self.arg_num = number
