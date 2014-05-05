@@ -30,7 +30,7 @@ class ParameterManager(models.Manager):
         parameters = self.get_query_set().filter(app=app)
         if last_modify:
             last_modify = datetime.fromtimestamp(last_modify)
-            parameters = parameters.filter(modify_time__lte=last_modify)
+            parameters = parameters.filter(modify_time__gte=last_modify)
         parameters = [v for v in parameters if
                       v.calculate_factor(version, channel, since) >= 0]
         data, mdata = {}, {}
