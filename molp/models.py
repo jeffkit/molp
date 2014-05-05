@@ -3,6 +3,7 @@ from django.db import models
 from django.conf import settings
 from datetime import datetime
 import calendar
+import pytz
 
 
 class ParameterManager(models.Manager):
@@ -30,6 +31,8 @@ class ParameterManager(models.Manager):
         parameters = self.get_query_set().filter(app=app)
         if last_modify:
             last_modify = datetime.fromtimestamp(last_modify)
+            last_modify = last_modify.replace(tzinfo=pytz.utc).astimezone(
+                pytz.timezone(settings.TIME_ZONE))
             parameters = parameters.filter(modify_time__gte=last_modify)
         parameters = [v for v in parameters if
                       v.calculate_factor(version, channel, since) >= 0]
