@@ -58,10 +58,12 @@ class ParameterManager(models.Manager):
 class Parameter(models.Model):
     app = models.CharField(u'应用', max_length=100,
                            choices=settings.APP_DEFINITION)
-    version = models.CharField(u'版本', max_length=20, null=True, blank=True)
-    channel = models.CharField(u'渠道', max_length=20, null=True, blank=True)
     name = models.CharField(u'参数名', max_length=255)
     value = models.CharField(u'参数值', max_length=1000)
+    description = models.CharField(u'说明', max_length=200,
+                                   blank=True, null=True)
+    version = models.CharField(u'版本', max_length=20, null=True, blank=True)
+    channel = models.CharField(u'渠道', max_length=20, null=True, blank=True)
 
     create_time = models.DateTimeField(auto_now_add=True, editable=False)
     modify_time = models.DateTimeField(auto_now=True, editable=False)
