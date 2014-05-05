@@ -62,7 +62,7 @@ class Parameter(models.Model):
 
     create_time = models.DateTimeField(auto_now_add=True, editable=False)
     modify_time = models.DateTimeField(auto_now=True, editable=False)
-    effect_time = models.DateTimeField(null=True)
+    effect_time = models.DateTimeField(null=True, blank=True)
 
     objects = ParameterManager()
 
