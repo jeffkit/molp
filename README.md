@@ -21,7 +21,7 @@ usage
 
 from molp.models import Parameter
 
-ps = Parameter.get_parameters(app, version, channel, since, last_modify)
+ps = Parameter.objects.get_parameters(app, version, channel, since, last_modify)
 
 data = dict([(p.name, p.value) for p in ps])
 

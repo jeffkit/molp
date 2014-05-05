@@ -5,6 +5,7 @@ from molp.models import Parameter
 from datetime import datetime
 from datetime import timedelta
 import time
+import calendar
 
 
 class ParameterManagerTestCase(TestCase):
@@ -84,3 +85,23 @@ class ParameterManagerTestCase(TestCase):
             channel='appstore',
             since=time.time() + 172800)
         self.assertEqual(2, len(ps))
+
+    def test_return_new_parameter(self):
+        """只返回增量数据
+        """
+        p = Parameter(app='net.jf.test', name='name', value='jeff')
+        p.save()
+        mt = p.modify_time
+
+        time.sleep(1)
+        p = Parameter(app='net.jf.test', name='gender', value='male',
+                      version='1.1')
+        p.save()
+
+        ts = calendar.timegm(mt.timetuple())
+        ps = Parameter.objects.get_parameters('net.jf.test', version='1.1',
+                                              channel='appstore',
+                                              last_modify=ts + 1)
+
+        self.assertEqual(1, len(ps))
+        self.assertEqual('gender', ps[0].name)
