@@ -33,7 +33,8 @@ class ParameterManager(models.Manager):
             last_modify = datetime.fromtimestamp(last_modify)
             last_modify = last_modify.replace(tzinfo=pytz.utc).astimezone(
                 pytz.timezone(settings.TIME_ZONE))
-            parameters = parameters.filter(modify_time__gte=last_modify)
+            parameters = parameters.filter(modify_time__gt=last_modify)
+        parameters = parameters.order_by('-modify_time')
         parameters = [v for v in parameters if
                       v.calculate_factor(version, channel, since) >= 0]
         data, mdata = {}, {}
